@@ -153,9 +153,11 @@ public class FunctionalLesson {
 
     public String properties_f(Map<String, Object> map) {
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, Object> e: map.entrySet()) {
-            sb.append(String.format("%s=%s\n", e.getKey(), e.getValue()));
-        }
+
+        map.entrySet().forEach(e -> sb.append(String.format("%s=%s\n", e.getKey(), e.getValue())));
+//        for (Map.Entry<String, Object> e: map.entrySet()) {
+//            sb.append(String.format("%s=%s\n", e.getKey(), e.getValue()));
+//        }
         return sb.toString();
     }
 
