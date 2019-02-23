@@ -85,12 +85,14 @@ public class FunctionalLesson {
     }
 
     public void mayTheOddsBeEverInYourFavor_f(List<String> list) {
-        Iterator<String> i = list.iterator();
-        while (i.hasNext()) {
-            if (i.next().length() % 2 == 0) {
-                i.remove();
-            }
-        }
+
+        list.removeIf(i -> i.length()%2==0);
+//        Iterator<String> i = list.iterator();
+//        while (i.hasNext()) {
+//            if (i.next().length() % 2 == 0) {
+//                i.remove();
+//            }
+//        }
     }
 
     /**
@@ -104,10 +106,12 @@ public class FunctionalLesson {
     }
 
     public void answer42_f(List<String> myStrings) {
-        ListIterator<String> i = myStrings.listIterator();
-        while (i.hasNext()) {
-            i.set(i.next().toUpperCase());
-        }
+
+          myStrings.replaceAll(s -> s.toUpperCase());
+//        ListIterator<String> i = myStrings.listIterator();
+//        while (i.hasNext()) {
+//            i.set(i.next().toUpperCase());
+//        }
     }
 
     /*
@@ -127,10 +131,12 @@ public class FunctionalLesson {
     }
 
     public String ustas2alex_f(List<String> words) {
+
         StringBuilder sb = new StringBuilder(words.size());
-        for (String w: words) {
-            sb.append(w.charAt(w.length() / 2));
-        }
+        words.forEach(w -> sb.append(w.charAt(w.length()/2)));
+//        for (String w: words) {
+//            sb.append(w.charAt(w.length() / 2));
+//        }
         return sb.toString();
     }
 
