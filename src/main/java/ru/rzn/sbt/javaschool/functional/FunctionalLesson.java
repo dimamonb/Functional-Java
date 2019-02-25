@@ -305,38 +305,47 @@ public class FunctionalLesson {
     /** Hint: Collectors.joining() helps a lot! */
     public String fWord_f() throws Exception {
         List<String> words = new ArrayList<>();
+        StringBuilder result = new StringBuilder();
+
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(THIS_FILE))
         ) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] newWords = line.split(WORD_DELIMITERS);
-                for (String w: newWords) {
-                    if(w.toLowerCase().startsWith("f")) {
-                        words.add(w);
-                    }
-                }
-            }
+              result.append(reader
+                     .lines()
+                     .flatMap(line -> Stream.of(line.split(WORD_DELIMITERS)))
+                     .filter(w -> w.toLowerCase().startsWith("f"))
+                     .distinct()
+                      .sorted()
+                     .collect(Collectors.joining(" ")));
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                String[] newWords = line.split(WORD_DELIMITERS);
+//                for (String w: newWords) {
+//                    if(w.toLowerCase().startsWith("f")) {
+//                        words.add(w);
+//                    }
+//                }
+//            }
         }
-
-        List<String> uniqueWords = new ArrayList<>();
-        for (String w: words) {
-            if(!uniqueWords.contains(w)) {
-                uniqueWords.add(w);
-            }
-        }
-
-        Collections.sort(uniqueWords);
-
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for (String w: uniqueWords) {
-            if(first) {
-                first = false;
-            } else {
-                result.append(" ");
-            }
-            result.append(w);
-        }
+//
+//        List<String> uniqueWords = new ArrayList<>();
+//        for (String w: words) {
+//            if(!uniqueWords.contains(w)) {
+//                uniqueWords.add(w);
+//            }
+//        }
+//
+//        Collections.sort(uniqueWords);
+//
+//        StringBuilder result = new StringBuilder();
+//        boolean first = true;
+//        for (String w: uniqueWords) {
+//            if(first) {
+//                first = false;
+//            } else {
+//                result.append(" ");
+//            }
+//            result.append(w);
+//        }
         return result.toString();
     }
 
