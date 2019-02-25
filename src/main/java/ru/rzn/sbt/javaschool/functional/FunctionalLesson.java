@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.System.out;
 import static java.util.stream.Collectors.joining;
@@ -174,9 +175,10 @@ public class FunctionalLesson {
 
     public List<String> lower_f(List<String> list) {
         List<String> newList = new ArrayList<>(list.size());
-        for (String s: list) {
-            newList.add(s.toLowerCase());
-        }
+        newList = list.stream().map(String::toLowerCase).collect(Collectors.toList());
+//        for (String s: list) {
+//            newList.add(s.toLowerCase());
+//        }
         return newList;
     }
 
@@ -195,11 +197,13 @@ public class FunctionalLesson {
 
     public List<String> lowerAndOdd_f(List<String> list) {
         List<String> newList = new ArrayList<>(list.size());
-        for (String s: list) {
-            if(s.length() % 2 == 1) {
-                newList.add(s.toLowerCase());
-            }
-        }
+
+        newList = list.stream().filter(s -> s.length() % 2 == 1).map(String::toLowerCase).collect(Collectors.toList());
+//        for (String s: list) {
+//            if(s.length() % 2 == 1) {
+//                newList.add(s.toLowerCase());
+//            }
+//        }
         return newList;
     }
 
@@ -221,10 +225,12 @@ public class FunctionalLesson {
     /** Hint: BufferedReader can produce a Stream! */
     public long count_f() throws Exception {
         long count = 0;
+
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(THIS_FILE))) {
-            while (reader.readLine() != null) {
-                count++;
-            }
+            count = reader.lines().count();
+//            while (reader.readLine() != null) {
+//                count++;
+//            }
         }
         return count;
     }
@@ -247,10 +253,11 @@ public class FunctionalLesson {
     public long countWords_f() throws Exception {
         long count = 0;
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(THIS_FILE))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                count+= line.split(WORD_DELIMITERS).length;
-            }
+            count = reader.lines().flatMap(line -> Stream.of(line.split(WORD_DELIMITERS))).count();
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                count+= line.split(WORD_DELIMITERS).length;
+//            }
         }
         return count;
     }
