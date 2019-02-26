@@ -43,11 +43,13 @@ public class FunctionalLessonTest {
                     this.printed = printed;
                 }
 
-                @Override public void println(String s) {
+                @Override
+                public void println(String s) {
                     super.println(s);
                     printed.add(s);
                 }
-            };
+            }
+            ;
 
             List<String> printed1 = new ArrayList<>();
             System.setOut(new SpyPS(printed1));
@@ -203,6 +205,15 @@ public class FunctionalLessonTest {
         assertEquals(s, s_f);
     }
 
+    @Test
+    public void genIntList() {
+        System.out.println(instance.intListGenerator());
+    }
+
+    @Test
+    public void genStringList(){
+        System.out.println(instance.stringListGenerator());
+    }
 
     /* ========================================================================================================= */
     /* ===================        NO MORE TESTS - ONLY UTILITY METHODS       =================================== */
@@ -232,10 +243,10 @@ public class FunctionalLessonTest {
     private List<String> randomStringList() {
         return IntStream.range(0, STRINGS_MIN_COUNT + random.nextInt(STRINGS_MAX_COUNT - STRINGS_MIN_COUNT))
                 .mapToObj(n -> random.ints(STRINGS_MIN_CHAR_COUNT + random.nextInt(STRINGS_CHAR_COUNT_RANGE),
-                                           STRINGS_MIN_CHAR, STRINGS_MAX_CHAR)
-                    .mapToObj(i -> new Character( CHARS.charAt(i)))
-                    .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-                    .toString()
+                        STRINGS_MIN_CHAR, STRINGS_MAX_CHAR)
+                        .mapToObj(i -> new Character(CHARS.charAt(i)))
+                        .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                        .toString()
                 ).collect(toList());
     }
 

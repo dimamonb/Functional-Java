@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.lang.System.out;
@@ -349,7 +350,36 @@ public class FunctionalLesson {
         return result.toString();
     }
 
+    /**
+     *  13. Сгенерировать список из случайного числа (не более N) случайных чисел от 0 до X
+     *      (Один из вариантов решения - метод randomIntegerList() в тесте к этому уроку)
+     */
+    public List<Integer> intListGenerator(){
+       return new Random().ints(20,0,100).boxed().collect(toList());
+    }
 
+    /** 14. Сгенерировать список из случайного числа (не менее N1 и не более N2) строк
+     *    случайной длины (не менее M1 и не более M2), состоящих из случайных символов с кодами от C1 до C2.
+     */
+    public List<String> stringListGenerator(){
+        final int CHAR_lOWER_BOUND = 65;
+        final int CHAR_UPPER_BOUND = 70;
+        final int STR_LENGTH_LB = 3;
+        final int STR_LENGTH_UB = 6;
+        final int LIST_WORDS_LB = 12;
+        final int LIST_WORDS_UB = 52;
+
+        List<String> result = new ArrayList<>();
+        Random rnd = new Random();
+
+        Object letters = IntStream.range(65, 122)
+                .mapToObj(i -> (char) i)
+                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
+        rnd.ints(1, LIST_WORDS_LB,LIST_WORDS_UB)
+                .mapToObj(s->rnd.ints(STR_LENGTH_LB,STR_LENGTH_UB));
+
+        return result;
+    }
     /*
      * Для тех, у кого осталось время:
      *
