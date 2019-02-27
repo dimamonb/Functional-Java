@@ -199,7 +199,7 @@ public class FunctionalLessonTest {
         String s = instance.fWord();
         String s_f = instance.fWord_f();
         System.out.println(s);
-        //System.out.println(s_f);
+        System.out.println(s_f);
 
         System.out.println(">>> fWord() test output end <<<");
         assertEquals(s, s_f);

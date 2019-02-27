@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.lang.System.out;
+import static java.lang.System.setOut;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -135,7 +136,7 @@ public class FunctionalLesson {
     public String ustas2alex_f(List<String> words) {
 
         StringBuilder sb = new StringBuilder(words.size());
-        words.forEach(w -> sb.append(w.charAt(w.length()/2)));
+        words.parallelStream().forEachOrdered(w -> sb.append(w.charAt(w.length()/2)));
 //        for (String w: words) {
 //            sb.append(w.charAt(w.length() / 2));
 //        }
@@ -156,7 +157,7 @@ public class FunctionalLesson {
     public String properties_f(Map<String, Object> map) {
         StringBuilder sb = new StringBuilder();
 
-        map.entrySet().forEach(e -> sb.append(String.format("%s=%s\n", e.getKey(), e.getValue())));
+        map.entrySet().parallelStream().forEachOrdered(e -> sb.append(String.format("%s=%s\n", e.getKey(), e.getValue())));
 //        for (Map.Entry<String, Object> e: map.entrySet()) {
 //            sb.append(String.format("%s=%s\n", e.getKey(), e.getValue()));
 //        }
@@ -267,7 +268,10 @@ public class FunctionalLesson {
      * Упражнение 12. F-word.
      */
     public String fWord() throws Exception {
-        List<String> words = new ArrayList<>();
+
+        //List<String> words = new ArrayList<>();
+
+        SortedSet<String> words = new TreeSet<>();
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(THIS_FILE))
         ) {
             String line;
@@ -281,6 +285,10 @@ public class FunctionalLesson {
             }
         }
 
+
+        /*StringBuilder result = new StringBuilder();
+
+
         List<String> uniqueWords = new ArrayList<>();
         for (String w: words) {
             if(!uniqueWords.contains(w)) {
@@ -290,17 +298,17 @@ public class FunctionalLesson {
 
         Collections.sort(uniqueWords);
 
-        StringBuilder result = new StringBuilder();
+
         boolean first = true;
-        for (String w: uniqueWords) {
+        for (String w: words) {
             if(first) {
                 first = false;
             } else {
                 result.append(" ");
             }
             result.append(w);
-        }
-        return result.toString();
+        } */
+        return String.join(" ", words);
     }
 
     /** Hint: Collectors.joining() helps a lot! */
@@ -376,7 +384,6 @@ public class FunctionalLesson {
 
         List<String> result;
         Random rnd = new Random();
-
 
         result = rnd.ints(LIST_WORDS_LB + rnd.nextInt(LIST_WORDS_RANGE), LIST_WORDS_LB, LIST_WORDS_UB)
                 .mapToObj(a -> rnd.ints(STR_LENGTH_LB + rnd.nextInt(STRING_LENGTH_RANGE), STR_LENGTH_LB, STR_LENGTH_UB)
