@@ -361,25 +361,33 @@ public class FunctionalLesson {
     /** 14. Сгенерировать список из случайного числа (не менее N1 и не более N2) строк
      *    случайной длины (не менее M1 и не более M2), состоящих из случайных символов с кодами от C1 до C2.
      */
-    public List<String> stringListGenerator(){
-        final int CHAR_lOWER_BOUND = 65;
-        final int CHAR_UPPER_BOUND = 70;
-        final int STR_LENGTH_LB = 3;
-        final int STR_LENGTH_UB = 6;
-        final int LIST_WORDS_LB = 12;
-        final int LIST_WORDS_UB = 52;
+    final char CHAR_lOWER_BOUND = 'A';
+    final char CHAR_UPPER_BOUND = 'z';
 
-        List<String> result = new ArrayList<>();
+    final int STR_LENGTH_LB = 3;
+    final int STR_LENGTH_UB = 6;
+    final int STRING_LENGTH_RANGE = STR_LENGTH_UB - STR_LENGTH_LB + 1;
+
+    final int LIST_WORDS_LB = 4;
+    final int LIST_WORDS_UB = 20;
+    final int LIST_WORDS_RANGE = LIST_WORDS_UB - LIST_WORDS_LB + 1;
+
+    public List<String> stringListGenerator(){
+
+        List<String> result;
         Random rnd = new Random();
 
-        Object letters = IntStream.range(65, 122)
-                .mapToObj(i -> (char) i)
-                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);
-        rnd.ints(1, LIST_WORDS_LB,LIST_WORDS_UB)
-                .mapToObj(s->rnd.ints(STR_LENGTH_LB,STR_LENGTH_UB));
 
+        result = rnd.ints(LIST_WORDS_LB + rnd.nextInt(LIST_WORDS_RANGE), LIST_WORDS_LB, LIST_WORDS_UB)
+                .mapToObj(a -> rnd.ints(STR_LENGTH_LB + rnd.nextInt(STRING_LENGTH_RANGE), STR_LENGTH_LB, STR_LENGTH_UB)
+                        .mapToObj(b -> rnd.ints(1,CHAR_lOWER_BOUND, CHAR_UPPER_BOUND)
+                                .mapToObj(c -> (char) c).filter(Character::isAlphabetic)
+                                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append).toString())
+                        .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append).toString()).collect(toList());
         return result;
     }
+
+
     /*
      * Для тех, у кого осталось время:
      *
